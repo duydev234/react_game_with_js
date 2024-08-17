@@ -26,6 +26,7 @@ const App = () => {
     if (!numPoint) return;
 
     setStatus("LET_PLAY");
+    pointIdxClicked.current = undefined;
 
     // clear prev interval
     if (timerRef.current) {
@@ -59,6 +60,7 @@ const App = () => {
           style={{
             top: randTop,
             left: randLeft,
+            zIndex: numPoint - index,
           }}
           onClick={() => onPointClick(index)}
         >

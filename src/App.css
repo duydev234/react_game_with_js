@@ -1,38 +1,86 @@
-.App {
-  text-align: center;
+.container {
+  padding: 32px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.title {
+  text-transform: uppercase;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.title.allCleared {
+  color: green;
+}
+
+.title.gameOver {
+  color: red;
+}
+
+table {
+  margin-top: 12px;
+}
+
+td {
+  padding: 6px 0;
+
+  &:first-child {
+    padding-right: 48px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+input {
+  padding: 6px 12px;
+  outline: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.playBtn {
+  padding: 6px 32px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.area {
+  height: 500px;
+  border: 1px solid #000;
+  margin-top: 12px;
+  position: relative;
+}
+
+.point {
+  width: 36px;
+  height: 36px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-radius: 50px;
+  border: 1px solid #000;
+  position: absolute;
+  background-color: #fff;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.point.active {
+  background-color: red;
+  animation: fade-out 3s linear forwards;
 }
 
-@keyframes App-logo-spin {
+@keyframes fade-out {
   from {
-    transform: rotate(0deg);
+    opacity: 1;
   }
+
   to {
-    transform: rotate(360deg);
+    opacity: 0;
+    visibility: hidden;
   }
 }
