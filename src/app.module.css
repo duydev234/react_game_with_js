@@ -1,0 +1,86 @@
+.container {
+  padding: 32px;
+}
+
+.title {
+  text-transform: uppercase;
+}
+
+.title.allCleared {
+  color: green;
+}
+
+.title.gameOver {
+  color: red;
+}
+
+table {
+  margin-top: 12px;
+}
+
+td {
+  padding: 6px 0;
+
+  &:first-child {
+    padding-right: 48px;
+  }
+}
+
+input {
+  padding: 6px 12px;
+  outline: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.playBtn {
+  padding: 6px 32px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.area {
+  height: 500px;
+  border: 1px solid #000;
+  margin-top: 12px;
+  position: relative;
+}
+
+.point {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  border: 1px solid #000;
+  position: absolute;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.point.active {
+  background-color: red;
+  animation: fade-out 3s linear forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
