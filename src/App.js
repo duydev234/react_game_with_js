@@ -1,11 +1,11 @@
 import React, { useMemo, useRef, useState } from "react";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import styles from "./app.module.css";
 import classNames from "classnames";
 
 const App = () => {
   const [duration, setDuration] = useState(0);
-  const [numPoint, setNumPoint] = useState("");
   const [status, setStatus] = useState("LET_PLAY");
 
   const timerRef = useRef();
@@ -18,11 +18,25 @@ const App = () => {
     if (Number.isInteger(msToSecond)) {
       return `${msToSecond}.0s`;
     }
-
     return `${msToSecond}s`;
   }, [duration]);
 
-  const onStart = () => {
+  const formik = useFormik({
+    initialValues: {
+      numPoint: ""
+    },
+    validationSchema: Yup.object({
+      numPoint: Yup.number()
+        .min(0, "Number of points cannot be less than 0")
+        .max(500, "Number of points cannot be more than 500")
+        .required("Number of points is required")
+    }),
+    onSubmit: (values) => {
+      onStart(values.numPoint);
+    },
+  });
+
+  const onStart = (numPoint) => {
     if (!numPoint) return;
 
     setStatus("LET_PLAY");
@@ -38,11 +52,11 @@ const App = () => {
       setDuration((prev) => prev + 1);
     }, 100);
 
-    // generate point
-    handleGeneratePoint();
+    // generate points
+    handleGeneratePoint(numPoint);
   };
 
-  const handleGeneratePoint = () => {
+  const handleGeneratePoint = (numPoint) => {
     const pointWidth = 36;
     const pointHeight = 36;
 
@@ -120,29 +134,36 @@ const App = () => {
         {status === "GAME_OVER" && "Game over"}
       </h1>
 
-      <table>
-        <tbody>
-          <tr>
-            <td>Points</td>
-            <td>
-              <input
-                value={numPoint}
-                type="number"
-                onChange={(e) => setNumPoint(+e.target.value)}
-              />
-            </td>
-          </tr>
+      <form onSubmit={formik.handleSubmit}>
+        <table>
+          <tbody>
+            <tr>
+              <td>Points</td>
+              <td>
+                <input
+                  type="number"
+                  name="numPoint"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.numPoint}
+                />
+                {formik.touched.numPoint && formik.errors.numPoint ? (
+                  <div className={styles.error}>{formik.errors.numPoint}</div>
+                ) : null}
+              </td>
+            </tr>
 
-          <tr>
-            <td>Time:</td>
-            <td>{durationFormat}</td>
-          </tr>
-        </tbody>
-      </table>
+            <tr>
+              <td>Time:</td>
+              <td>{durationFormat}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <button className={styles.playBtn} onClick={onStart}>
-        {pointsRef.current ? "Restart" : "Play"}
-      </button>
+        <button type="submit" className={styles.playBtn}>
+          {pointsRef.current ? "Restart" : "Play"}
+        </button>
+      </form>
 
       <div className={styles.area} ref={areaRef}>
         {pointsRef.current}
